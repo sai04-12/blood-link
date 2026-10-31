@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Blood Link</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff5f5;
+    text-align: center;
+}
+header {
+    background: #c62828;
+    color: white;
+    padding: 25px;
+}
+.box {
+    background: white;
+    max-width: 380px;
+    margin: 60px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px #ddd;
+}
+input {
+    width: 90%;
+    padding: 13px;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    background: #c62828;
+    color: white;
+    padding: 13px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+a {
+    color: #c62828;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🩸 BLOOD LINK</h1>
+    <p>Welcome Back!</p>
+</header>
+
+<div class="box">
+
+    <h2>Login</h2>
+
+    <form id="loginForm">
+
+        <input type="text" id="username"
+        placeholder="Enter Your Name" required>
+
+        <button type="submit">Continue to Dashboard</button>
+
+    </form>
+
+    <p id="message"></p>
+
+    <p><a href="index.html">Back to Home</a></p>
+
+</div>
+
+<script>
+document.getElementById("loginForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+
+    sessionStorage.setItem("demoUser", username);
+
+    window.location.href = "dashboard.html";
+
+});
+</script>
+
+</body>
+</html>

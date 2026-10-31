@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Find Donors | Blood Link</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fff5f5;
+            color: #333;
+        }
+
+        header {
+            background: #c62828;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        nav {
+            background: #8e0000;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 12px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px #ddd;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: #c62828;
+            text-align: center;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .donor {
+            background: #fff5f5;
+            border-left: 5px solid #c62828;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        .notice {
+            background: #fff0d9;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            border-radius: 6px;
+        }
+
+        footer {
+            background: #8e0000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <h1>🩸 BLOOD LINK</h1>
+        <p>Find Donors</p>
+    </header>
+
+    <nav>
+    <a href="index.html">Home</a>
+    <a href="register.html">Register</a>
+    <a href="find.html">Find Donors</a>
+    <a href="request.html">Request Blood</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="about.html">About Us</a>
+</nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Search Blood Donors</h2>
+
+            <input
+                type="text"
+                id="city"
+                placeholder="Enter City"
+            >
+
+            <select id="blood">
+
+                <option value="">All Blood Groups</option>
+
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>O+</option>
+                <option>O-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+
+            </select>
+
+            <button onclick="searchDonors()">
+                Search Donors
+            </button>
+
+            <button onclick="showDonors()">
+                Show All
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>Available Demo Entries</h2>
+
+            <div id="donorList"></div>
+            <button onclick="sendRequest()">
+            send blood request
+            </button>
+
+            <p class="notice">
+                Demo only: These are fictional browser-stored
+                entries, not verified donors. This website does
+                not arrange or confirm real blood donations.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+        <p>© 2026 Blood Link</p>
+        <p>Connect. Donate. Save Lives.</p>
+    </footer>
+
+
+    <script>
+
+        function getDonors() {
+
+            return JSON.parse(
+                localStorage.getItem("bloodLinkDonors")
+            ) || [];
+
+        }
+
+
+        function displayDonors(donors) {
+
+            const donorList =
+                document.getElementById("donorList");
+
+            donorList.replaceChildren();
+
+            if (donors.length === 0) {
+
+                donorList.textContent =
+                    "No matching demo entries found.";
+
+                return;
+
+            }
+
+            donors.forEach(function(donor) {
+
+                const box = document.createElement("div");
+
+                box.className = "donor";
+
+                const name = document.createElement("h3");
+                name.textContent = donor.name;
+
+                const city = document.createElement("p");
+                city.textContent = "City: " + donor.city;
+
+                const blood = document.createElement("p");
+                blood.textContent =
+                    "Blood Group: " + donor.blood;
+
+                box.appendChild(name);
+                box.appendChild(city);
+                box.appendChild(blood);
+
+                donorList.appendChild(box);
+
+            });
+
+        }
+
+
+        function showDonors() {
+
+            displayDonors(getDonors());
+
+        }
+
+
+        function searchDonors() {
+
+            const city = document
+                .getElementById("city")
+                .value.trim().toLowerCase();
+
+            const blood = document
+                .getElementById("blood")
+                .value;
+
+            const donors = getDonors();
+
+            const filtered = donors.filter(function(donor) {
+
+                const cityMatch =
+                    !city ||
+                    donor.city.toLowerCase().includes(city);
+
+                const bloodMatch =
+                    !blood ||
+                    donor.blood === blood;
+
+                return cityMatch && bloodMatch;
+
+            });
+
+            displayDonors(filtered);
+
+        }
+
+
+        showDonors();
+        function sendRequest() {
+           window.location.href="request.html";
+}
+
+    </script>
+
+</body>
+
+</html>

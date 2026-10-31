@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Link | Donor Registration</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fff5f5;
+            color: #333;
+        }
+
+        header {
+            background: #c62828;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        nav {
+            background: #8e0000;
+            text-align: center;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 12px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px #ddd;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #c62828;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        button {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #8e0000;
+        }
+
+        .register-btn {
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .donor {
+            background: #fff5f5;
+            border-left: 5px solid #c62828;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 6px;
+        }
+
+        .delete-btn {
+            background: #555;
+            padding: 8px 12px;
+            margin-top: 8px;
+        }
+
+        .notice {
+            background: #fff0d9;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        footer {
+            background: #8e0000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>🩸 BLOOD LINK</h1>
+
+        <p>Connect. Donate. Save Lives.</p>
+
+    </header>
+
+
+    <nav>
+    <a href="index.html">Home</a>
+    <a href="register.html">Register</a>
+    <a href="find.html">Find Donors</a>
+    <a href="request.html">Request Blood</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="about.html">About Us</a>
+    <a href="#saved">Saved Entries</a>
+</nav>
+
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Become a Donor</h2>
+
+            <p style="text-align:center;">
+                Enter fictional details to test our registration system.
+            </p>
+
+            <form id="donorForm">
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Full Name"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="age"
+                    placeholder="Age"
+                    min="18"
+                    max="65"
+                    required
+                >
+<input
+type="tel"
+id="phone"
+placeholder="Mobile Number"
+maxlength="10"
+pattern="[0-9]{10}"
+required
+>
+
+<input
+type="text"
+id="city"
+placeholder="City"
+required
+>
+                
+                >
+
+                <select id="blood" required>
+                    <option value="">Select Blood Group</option>
+
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+
+                </select>
+
+                <button type="submit" class="register-btn">
+                    Register Now
+                </button>
+
+            </form>
+
+            <p id="message" style="text-align:center;"></p>
+
+            <div class="notice">
+                <strong>Demo notice:</strong>
+                This is a student project prototype. Use fictional
+                information only. It does not verify donor eligibility
+                or connect people to real blood donations.
+            </div>
+
+        </div>
+
+
+        <div class="card" id="saved">
+
+            <h2>Registered Demo Entries</h2>
+
+            <p style="text-align:center;">
+                Your saved test registrations will appear here.
+            </p>
+
+            <div id="donorList"></div>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+        <p>© 2026 Blood Link</p>
+
+        <p>Connect. Donate. Save Lives.</p>
+
+    </footer>
+
+
+    <script>
+
+        // Get the registration form
+
+        const form = document.getElementById("donorForm");
+
+
+        // Load saved demo entries
+
+        function getDonors() {
+
+            return JSON.parse(
+                localStorage.getItem("bloodLinkDonors")
+            ) || [];
+
+        }
+
+
+        // Save demo entries
+
+        function saveDonors(donors) {
+
+            localStorage.setItem(
+                "bloodLinkDonors",
+                JSON.stringify(donors)
+            );
+
+        }
+
+
+        // Register a demo entry
+
+        form.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const donor = {
+
+                id: Date.now(),
+
+                name: document.getElementById("name").value.trim(),
+
+                age: document.getElementById("age").value,
+
+                city: document.getElementById("city").value.trim(),
+
+                blood: document.getElementById("blood").value
+
+            };
+
+
+            let donors = getDonors();
+
+            donors.push(donor);
+
+            saveDonors(donors);
+
+
+            document.getElementById("message").textContent =
+                "Registration saved successfully!";
+
+
+            form.reset();
+
+            displayDonors();
+
+        });
+
+
+        // Display saved demo entries
+
+        function displayDonors() {
+
+            const donorList = document.getElementById("donorList");
+
+            const donors = getDonors();
+
+            donorList.replaceChildren();
+
+
+            if (donors.length === 0) {
+
+                donorList.textContent =
+                    "No demo registrations yet.";
+
+                return;
+
+            }
+
+
+            donors.forEach(function(donor) {
+
+                const box = document.createElement("div");
+
+                box.className = "donor";
+
+
+                const name = document.createElement("h3");
+
+                name.textContent = donor.name;
+
+
+                const age = document.createElement("p");
+
+                age.textContent = "Age: " + donor.age;
+
+
+                const city = document.createElement("p");
+
+                city.textContent = "City: " + donor.city;
+
+
+                const blood = document.createElement("p");
+
+                blood.textContent = "Blood Group: " + donor.blood;
+
+
+                const deleteButton = document.createElement("button");
+
+                deleteButton.className = "delete-btn";
+
+                deleteButton.textContent = "Delete";
+
+
+                deleteButton.addEventListener("click", function() {
+
+                    deleteDonor(donor.id);
+
+                });
+
+
+                box.appendChild(name);
+
+                box.appendChild(age);
+
+                box.appendChild(city);
+
+                box.appendChild(blood);
+
+                box.appendChild(deleteButton);
+
+
+                donorList.appendChild(box);
+
+            });
+
+        }
+
+
+        // Delete a demo entry
+
+        function deleteDonor(id) {
+
+            let donors = getDonors();
+
+            donors = donors.filter(function(donor) {
+
+                return donor.id !== id;
+
+            });
+
+            saveDonors(donors);
+
+            displayDonors();
+
+        }
+
+
+        // Show saved entries when page opens
+
+        displayDonors();
+
+    </script>
+
+</body>
+
+</html>
